@@ -1,0 +1,16 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.ArticleItem>
+@using ContentModels = Umbraco.Web.PublishedModels;
+@{
+    Layout = "Master.cshtml";
+}
+<main class="jumbotron">
+    <article class="container">
+        <h1>@Model.ArticleTitle</h1>
+        <div class="content-flex">
+            <figure class="article-img">
+                <img src="@Model.GetCropUrl("articleImage","profile")" alt="@Model.ArticlesTitle" class="img-rounded" />
+            </figure>
+            <div>@Model.ArticleContent</div>
+        </div>
+    </article>
+</main>

@@ -1,0 +1,47 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.MembersOverview>
+@using ContentModels = Umbraco.Web.PublishedModels;
+
+@{
+    Layout = "Master.cshtml";
+    var ms = Services.MemberService;
+    var members = ms.GetMembersByGroup("Active");
+}
+<main class="jumbotron">
+    <section class="container">
+        <h1>@Model.Name</h1>
+        @foreach (var member in members)
+        {
+            <div class="px-5">
+                <h3>
+                    <b>
+                        @member.Name
+                    </b>
+                </h3>
+                @{
+                    var memberModel = Umbraco.Member(member.Id);
+                    string imageUrl = memberModel.GetCropUrl("photo", "profile");
+                }
+                <article class="content-flex">
+                    <img src="@imageUrl" alt="@member.Name" />
+                    <div class="member-info">
+                        <p>
+                            @member.GetValue("address") <br />
+                            @member.GetValue("zip") - @member.GetValue("city") <br />
+                            e-mail: @member.Email <br />
+
+                            @{
+                                var skills = (string)member.GetValue("skills");
+                                skills = skills.Replace("[", string.Empty);
+                                skills = skills.Replace("]", string.Empty);
+                                var splitted = skills.Split(',');
+                                var skillsStr = string.Join(", ", splitted.Select(str => str)).Replace("\"", string.Empty);
+                            }
+                            Skills: @skillsStr
+                        </p>
+                    </div>
+                </article>
+                <br />
+            </div>
+        }
+    </section>
+</main>

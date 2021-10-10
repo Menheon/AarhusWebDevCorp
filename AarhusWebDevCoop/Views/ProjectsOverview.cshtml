@@ -1,0 +1,55 @@
+﻿@using ContentModels = Umbraco.Web.PublishedModels;
+@using AarhusWebDevCoop.Models;
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<ProjectsOverviewViewModel>
+@{
+    Layout = "Master.cshtml";
+}
+<main class="jumbotron">
+    <div class="content-flex">
+        <aside>
+            <div class="projects-aside">
+                <h2>Project Status</h2>
+                <ul>
+                    @foreach (var status in Model.ProjectStatusList)
+                    {
+                        <li class="nav-item @(status == Model.ProjectStatus ?  "current" : null)">
+                            <a href="@Model.Content.Url()Status/@status">
+                                <span>
+                                    @status
+                                </span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </aside>
+        <section class="container">
+            <h1>Projects</h1>
+            @if (Model.Projects.Count() > 0)
+            {
+                foreach (var project in Model.Projects)
+                {
+                    if (Umbraco.MemberHasAccess(project.Path))
+                    {
+                        <article>
+                            <h3><a href="@project.Url()">@project.Name</a></h3>
+                            <div>
+                                @Html.Raw(project.Description.Truncate(100))
+                                <a href="@project.Url()">Read more...</a>
+                            </div>
+                        </article>
+                        <hr />
+                    }
+                    else
+                    {
+                        <p>No projects here with the specific status.</p>
+                    }
+                }
+            }
+            else
+            {
+                <p>No projects here with the specific status.</p>
+            }
+        </section>
+    </div>
+</main>

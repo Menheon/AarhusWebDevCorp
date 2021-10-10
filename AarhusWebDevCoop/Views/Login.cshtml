@@ -1,0 +1,27 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.Login>
+@using ContentModels = Umbraco.Web.PublishedModels;
+@using Umbraco.Web.Models
+@using Umbraco.Web.Controllers
+
+@{
+    Layout = "Master.cshtml";
+}
+<main class="jumbotron">
+    <section class="container">
+        @if (!Members.GetCurrentLoginStatus().IsLoggedIn)
+        {
+            @Html.Partial("_loginForm")
+        }
+        else
+        {
+            <p>Welcome @Members.GetCurrentLoginStatus().Name!</p>
+            var logoutModel = new PostRedirectModel();
+            logoutModel.RedirectUrl = "/";
+            using (Html.BeginUmbracoForm<UmbLoginStatusController>("HandleLogout"))
+            {
+                <button class="btn btn-warning">Logout</button>
+                @Html.HiddenFor(m => logoutModel.RedirectUrl)
+            }
+        }
+    </section>
+</main>

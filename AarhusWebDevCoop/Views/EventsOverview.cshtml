@@ -1,0 +1,18 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.EventsOverview>
+@using ContentModels = Umbraco.Web.PublishedModels;
+@{
+    Layout = "Master.cshtml";
+}
+<main class="jumbotron">
+    <section class="container">
+        <h1>@Model.EventsTitle</h1>
+        <div>@Model.EventsBody</div>
+
+        <ul>
+            @foreach (var item in Model.Children<Event>())
+            {
+                <li><a href="@item.Url()">@item.EventTitle - @item.EventStartDate.ToString("M")</a></li>
+            }
+        </ul>
+    </section>
+</main>

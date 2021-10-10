@@ -1,0 +1,22 @@
+﻿@inherits Umbraco.Web.Macros.PartialViewMacroPage
+
+@{
+    var root = Model.Content.Root();
+    var numOfProjects = Convert.ToUInt16(Model.MacroParameters["numOfProjects"]);
+    var projects = root
+        .FirstChildOfType(ProjectsOverview.ModelTypeAlias)
+        .Children()
+        .Where(p => p.HasValue("projectStatus") && p.GetProperty("projectStatus").Value<string>() == "Completed")
+        .OrderByDescending(p => p.CreateDate)
+        .Take(numOfProjects);
+}
+<h3>Newest Projects</h3>
+<ul>
+    @foreach (var item in projects)
+    {
+        if (Umbraco.MemberHasAccess(item.Url()))
+        {
+            <li><a href="@item.Url()">@item.Name</a></li>
+        }
+    }
+</ul>

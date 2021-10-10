@@ -1,0 +1,49 @@
+﻿body {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #55bfb2;
+}
+
+.img-banner {
+    width: 100%;
+}
+
+    .img-banner img {
+        width: 100%;
+    }
+
+.article-img {
+    width: auto;
+    height: 250px;
+}
+
+.current * {
+    color: #55bfb2;
+    text-decoration: underline;
+}
+
+.navbar {
+    margin: 0;
+    border-radius: 0
+}
+
+.content-flex {
+    display: flex;
+    align-items: stretch;
+}
+
+    .content-flex div {
+        padding: 10px;
+    }
+
+.speaker-photo {
+    width: 250px;
+}
+
+.projects-aside {
+    margin: 10px;
+    border: 5px solid #55bfb2;
+    border-radius: 5px;
+}

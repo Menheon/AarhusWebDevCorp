@@ -1,0 +1,69 @@
+﻿@inherits Umbraco.Web.Macros.PartialViewMacroPage
+@using Umbraco.Web
+
+@{
+    var rootDoc = Model.Content.Root<HomePage>();
+    var selection = rootDoc.Children.Where(x => x.IsVisible()).ToArray();
+}
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a href="@rootDoc.Url()" class="navbar-brand">@rootDoc.SiteTitle</a>
+            <button class="navbar-toggle collapsed" type="button" data-toggle="collapse"
+                    data-target="#navbarDropdown" aria-controls="navbarDropdown"
+                    aria-expanded="false">
+                <span class="sr-only">Toggle Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarDropdown">
+            <ul class="nav navbar-nav">
+                <li class="@(rootDoc.IsEqual(Model.Content) ? "current" : null)">
+                    <a class="nav-link"
+                       href="@rootDoc.Url()">
+                        <span>
+                            @rootDoc.Name
+                        </span>
+                    </a>
+                </li>
+                @foreach (var item in selection)
+                {
+                    if (item.IsDocumentType("articlesOverview"))
+                    {
+                        <li class="dropdown @(item.IsAncestorOrSelf(Model.Content) ? "current" : null)">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                               role="button" aria-haspopup="true" aria-expanded="false">
+                                <span>
+                                    @item.Name
+                                </span>
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="@item.Url()">All @item.Name</a></li>
+                                <li role="separator" class="divider"></li>
+                                @foreach (var subItem in item.Children().Take(5))
+                                {
+                                    <li><a href="@subItem.Url()">@subItem.Name</a></li>
+                                }
+                                }
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="@(item.IsAncestorOrSelf(Model.Content) ? "current" : null)">
+                            <a href="@item.Url()">
+                                <span>
+                                    @item.Name
+                                </span>
+                            </a>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+</nav>

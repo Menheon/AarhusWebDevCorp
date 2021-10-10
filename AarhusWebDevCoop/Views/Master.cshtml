@@ -1,0 +1,37 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@using ClientDependency.Core.Mvc
+
+@{
+    Layout = null;
+
+    var keywordsVal = Model.Value("keywords");
+    var descriptionVal = Model.Value("description");
+    var keywordsStr = string.Empty;
+    var description = string.Empty;
+    if (keywordsVal != null && description != null)
+    {
+        keywordsStr = String.Join(", ", (String[])keywordsVal);
+        description = descriptionVal.ToString();
+    }
+    var siteTitle = Model.Root<HomePage>().SiteTitle;
+
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>@siteTitle</title>
+    <meta name="description" content="@description">
+    <meta name="keywords" content="@keywordsStr">
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/CSS/styles.css" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="32x32" href="~/CSS/favicon-32x32.png" />
+</head>
+<body>
+    @Umbraco.RenderMacro("mainMenu")
+    @RenderBody()
+    <script type="text/javascript" src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+    @Html.RenderJsHere()
+</body>
+</html>
